@@ -202,7 +202,7 @@ def check_policy_numbers(data):
             not_match.append(x)
         else: 
             x[3] = x[3]
-        return not_match
+    return not_match
 
 def extra_credit(listing_id):
     """
