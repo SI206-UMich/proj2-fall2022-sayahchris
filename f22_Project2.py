@@ -132,6 +132,13 @@ def get_detailed_listing_database(html_file):
     ]
     """
 
+    list = []
+    first = get_listings_from_search_results(html_file)
+    for x in first:
+        second = get_listing_information(x[2])
+        list.append(x + second)
+    return list
+
 def write_csv(data, filename):
     """
     Write a function that takes in a list of tuples (called data, i.e. the
