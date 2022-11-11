@@ -1,3 +1,7 @@
+# Name: Christopher Sayah
+# ID: 37311035
+# Group Members: Jason Kemp, Vikram Reddy, Remi Goldfarb, Morgan Huseby, Emily Veguilla (I was in office hours)
+
 from xml.sax import parseString
 from bs4 import BeautifulSoup
 import re
@@ -25,8 +29,33 @@ def get_listings_from_search_results(html_file):
         ('Loft in Mission District', 210, '1944564'),  # example
     ]
     """
-    pass
 
+    with open(html_file) as file:
+        soup = BeautifulSoup(file, 'html.parser')
+
+        title_list = []
+        titles = soup.find_all('div', class_ = "t1jojoys dir dir-ltr")
+        for x in titles:
+            title_list.append(x.text)
+
+        cost_list = []
+        cost = soup.find_all('span', class_ = "_tyxjp1")
+        for x in cost:
+            x = x.text.strip("$")
+            y = int(x)
+            cost_list.append(y)
+
+        id_list = []
+        ids = soup.find_all('div', class_ = "t1jojoys dir dir-ltr")
+        for x in ids:
+            y = x.get("id")
+            id_list.append(y[6:])
+
+        list = []
+        for x in range(len(title_list)):
+            tuple = title_list[x], cost_list[x], id_list[x]
+            list.append(tuple)
+        return(list)
 
 def get_listing_information(listing_id):
     """
@@ -52,8 +81,6 @@ def get_listing_information(listing_id):
         number of bedrooms
     )
     """
-    pass
-
 
 def get_detailed_listing_database(html_file):
     """
@@ -69,8 +96,6 @@ def get_detailed_listing_database(html_file):
         ...
     ]
     """
-    pass
-
 
 def write_csv(data, filename):
     """
@@ -94,8 +119,6 @@ def write_csv(data, filename):
 
     This function should not return anything.
     """
-    pass
-
 
 def check_policy_numbers(data):
     """
@@ -116,8 +139,6 @@ def check_policy_numbers(data):
     ]
 
     """
-    pass
-
 
 def extra_credit(listing_id):
     """
@@ -147,7 +168,7 @@ class TestCases(unittest.TestCase):
         # check that the variable you saved after calling the function is a list
         self.assertEqual(type(listings), list)
         # check that each item in the list is a tuple
-
+        self.assertEqual(type(listings), list)
         # check that the first title, cost, and listing id tuple is correct (open the search results html and find it)
 
         # check that the last title is correct (open the search results html and find it)
