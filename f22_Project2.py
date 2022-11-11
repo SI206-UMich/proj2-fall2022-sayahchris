@@ -162,6 +162,15 @@ def write_csv(data, filename):
     This function should not return anything.
     """
 
+    data_1 = sorted(data, key = lambda x:x[1])
+    f = open(filename, 'w')
+    csv_1 = csv.writer(f)
+    column_headers = ['Listing Title', 'Cost', 'Listing ID', 'Policy Number', 'Place Type', 'Number of Bedrooms']
+    csv_1.writerow(column_headers)
+    for x in data_1:
+        csv_1.writerow(x)
+    f.close()
+
 def check_policy_numbers(data):
     """
     Write a function that takes in a list of tuples called data, (i.e. the one that is returned by
