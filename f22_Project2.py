@@ -11,6 +11,7 @@ import unittest
 
 
 def get_listings_from_search_results(html_file):
+
     """
     Write a function that creates a BeautifulSoup object on html_file. Parse
     through the object and return a list of tuples containing:
@@ -58,6 +59,7 @@ def get_listings_from_search_results(html_file):
         return(list)
 
 def get_listing_information(listing_id):
+
     """
     Write a function to return relevant information in a tuple from an Airbnb listing id.
     NOTE: Use the static files in the html_files folder, do NOT send requests to the actual website.
@@ -86,7 +88,7 @@ def get_listing_information(listing_id):
     file = open(f, 'r')
     files = file.read()
     soup = BeautifulSoup(files, 'html.parser')
-    file.close
+    file.close()
 
     policy_num = soup.find('li', class_ = 'f19phm7j dir dir-ltr').span.text
     policy_num = policy_num.strip('Policy number: ')
@@ -118,6 +120,7 @@ def get_listing_information(listing_id):
     return tuple
 
 def get_detailed_listing_database(html_file):
+
     """
     Write a function that calls the above two functions in order to return
     the complete listing information using the functions you’ve created.
@@ -140,6 +143,7 @@ def get_detailed_listing_database(html_file):
     return list
 
 def write_csv(data, filename):
+
     """
     Write a function that takes in a list of tuples (called data, i.e. the
     one that is returned by get_detailed_listing_database()), sorts the tuples in
@@ -188,8 +192,17 @@ def check_policy_numbers(data):
         listing id 2,
         ...
     ]
-
     """
+
+    pattern_1 = '20\d{2}\-00\d{4}STR'
+    pattern_2 = 'STR\-000\d{4}'
+    not_match = []
+    for x in data:
+        if x[3] != re.search(pattern_1, str(x)) or (pattern_2, str(x)):
+            not_match.append(x)
+        else: 
+            x[3] = x[3]
+        return not_match
 
 def extra_credit(listing_id):
     """
