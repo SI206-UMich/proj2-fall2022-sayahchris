@@ -34,21 +34,21 @@ def get_listings_from_search_results(html_file):
         soup = BeautifulSoup(file, 'html.parser')
 
         title_list = []
-        titles = soup.find_all('div', class_ = "t1jojoys dir dir-ltr")
+        titles = soup.find_all('div', class_ = 't1jojoys dir dir-ltr')
         for x in titles:
             title_list.append(x.text)
 
         cost_list = []
-        cost = soup.find_all('span', class_ = "_tyxjp1")
+        cost = soup.find_all('span', class_ = '_tyxjp1')
         for x in cost:
-            x = x.text.strip("$")
+            x = x.text.strip('$')
             y = int(x)
             cost_list.append(y)
 
         id_list = []
-        ids = soup.find_all('div', class_ = "t1jojoys dir dir-ltr")
+        ids = soup.find_all('div', class_ = 't1jojoys dir dir-ltr')
         for x in ids:
-            y = x.get("id")
+            y = x.get('id')
             id_list.append(y[6:])
 
         list = []
@@ -81,6 +81,24 @@ def get_listing_information(listing_id):
         number of bedrooms
     )
     """
+
+    f = 'html_files/listing_' + listing_id + '.html'
+    file = open(f, 'r')
+    files = file.read()
+    soup = BeautifulSoup(files, 'html.parser')
+    file.close
+
+    policy_number = soup.find('li', class_ = 'f19phm7j dir dir-ltr').span.text
+    policy_number = policy_number.strip('Policy number: ')
+    pending_str = ['Pending', 'pending', 'Pending Application', 'City registration']
+    exempt_str = ['License not needed per OSTR', 'Exempt', 'exempt']
+    if policy_number in pending_str:
+        policy_number = 'Pending'
+    elif policy_number in exempt_str:
+        policy_number = 'Exempt'
+    else:
+        policy_number = policy_number
+
 
 def get_detailed_listing_database(html_file):
     """
