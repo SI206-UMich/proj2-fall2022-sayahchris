@@ -88,17 +88,34 @@ def get_listing_information(listing_id):
     soup = BeautifulSoup(files, 'html.parser')
     file.close
 
-    policy_number = soup.find('li', class_ = 'f19phm7j dir dir-ltr').span.text
-    policy_number = policy_number.strip('Policy number: ')
+    policy_num = soup.find('li', class_ = 'f19phm7j dir dir-ltr').span.text
+    policy_num = policy_num.strip('Policy number: ')
     pending_str = ['Pending', 'pending', 'Pending Application', 'City registration']
     exempt_str = ['License not needed per OSTR', 'Exempt', 'exempt']
-    if policy_number in pending_str:
-        policy_number = 'Pending'
-    elif policy_number in exempt_str:
-        policy_number = 'Exempt'
+    if policy_num in pending_str:
+        policy_num = 'Pending'
+    elif policy_num in exempt_str:
+        policy_num = 'Exempt'
     else:
-        policy_number = policy_number
-
+        policy_num = policy_num
+    
+    place_type = soup.find_all('h2', class_ = '_14i3z6h')
+    private_str = ['Private Room', 'Shared Room']
+    shared_str = ['Private', 'Shared']
+    if place_type in private_str:
+        place_type = 'Private'
+    elif place_type in shared_str:
+        place_type = 'Shared'
+    else:
+        place_type = 'Entire Room'
+    
+    room_num = soup.find_all('li', class_ = 'l7n4lsf dir dir-ltr')[1].find_all('span')[2]
+    room_num = room_num.text.split(" ")[0]
+    if 'studio' in room_num.lower():
+        room_num = 1
+    
+    tuple = (policy_num, place_type, int(room_num))
+    return tuple
 
 def get_detailed_listing_database(html_file):
     """
