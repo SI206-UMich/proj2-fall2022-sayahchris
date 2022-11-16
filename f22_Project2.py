@@ -9,7 +9,6 @@ import os
 import csv
 import unittest
 
-
 def get_listings_from_search_results(html_file):
 
     """
@@ -222,6 +221,7 @@ def extra_credit(listing_id):
     with open(f, 'r') as file:
         text = file.read()
         soup = BeautifulSoup(text, 'html.parser')
+        
     id_list = soup.find_all('li', class_ = '_1f1oir5')
     id_dict = {}
     for x in id_list:
