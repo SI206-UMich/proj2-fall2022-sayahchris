@@ -1,6 +1,6 @@
 # Name: Christopher Sayah
 # ID: 37311035
-# Group Members: Jason Kemp, Morgan Huseby, Emily Veguilla, Vikram Reddy, Remi Goldfarb (I was in office hours)
+# Group Members: Jason Kemp, Remi Goldfarb, Morgan Huseby, Emily Veguilla, Vikram Reddy(I was in office hours)
 
 from xml.sax import parseString
 from bs4 import BeautifulSoup
@@ -191,7 +191,7 @@ def check_policy_numbers(data):
     ]
     """
 
-    pattern = r'(20\d{2}-00\d{4}STR)|(STR-000\d{4})|([a-zA-Z])'
+    pattern = r'(20\d{2}-00\d{4}STR)|(STR-000\d{4})|[a-zA-Z]'
     invalid = []
     for x in data:
         policy_num = x[3]
@@ -218,6 +218,18 @@ def extra_credit(listing_id):
     """
     pass
 
+    f = 'html_files/listing_' + listing_id + '_reviews.html'
+    with open(f, 'r') as file:
+        text = file.read()
+        soup = BeautifulSoup(text, 'html.parser')
+    id_list = soup.find_all('li', class_ = '_1f1oir5')
+    id_dict = {}
+    for x in id_list:
+        reviews = re.findall('\d{4}', x.text)[0]
+        id_dict[reviews] = id_dict.get(reviews, 0) + 1
+        if id_dict[reviews] > 90:
+            return False
+    return True
 
 class TestCases(unittest.TestCase):
 
@@ -230,7 +242,8 @@ class TestCases(unittest.TestCase):
         # check that the variable you saved after calling the function is a list
         self.assertEqual(type(listings), list)
         # check that each item in the list is a tuple
-        self.assertEqual(type(listings), list)
+        for item in listings:
+            self.assertEqual(type(item), tuple)
         # check that the first title, cost, and listing id tuple is correct (open the search results html and find it)
         self.assertEqual(listings[0], ('Loft in Mission District', 210, '1944564'))
         # check that the last title is correct (open the search results html and find it)
