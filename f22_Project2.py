@@ -1,6 +1,6 @@
 # Name: Christopher Sayah
 # ID: 37311035
-# Group Members: Jason Kemp, Remi Goldfarb, Morgan Huseby, Emily Veguilla, Vikram Reddy(I was in office hours)
+# Group Members: Jason Kemp, Remi Goldfarb, Morgan Huseby, Emily Veguilla, Vikram Reddy (I was in office hours)
 
 from xml.sax import parseString
 from bs4 import BeautifulSoup
@@ -215,7 +215,6 @@ def extra_credit(listing_id):
     gone over their 90 day limit, else return True, indicating the lister has
     never gone over their limit.
     """
-    pass
 
     f = 'html_files/listing_' + listing_id + '_reviews.html'
     with open(f, 'r') as file:
@@ -229,7 +228,7 @@ def extra_credit(listing_id):
         id_dict[reviews] = id_dict.get(reviews, 0) + 1
         if id_dict[reviews] > 90:
             return False
-    return True
+    return True    
 
 class TestCases(unittest.TestCase):
 
